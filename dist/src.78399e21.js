@@ -31598,18 +31598,25 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(MainView);
 
   function MainView() {
+    var _this;
+
     _classCallCheck(this, MainView);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this);
+    _this.state = {
+      movies: null,
+      selectedMovie: null
+    };
+    return _this;
   }
 
   _createClass(MainView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this = this;
+      var _this2 = this;
 
       _axios.default.get('<https://mooviv.herokuapp.com/movies>').then(function (response) {
-        _this.setState({
+        _this2.setState({
           movies: response.data
         });
       }).catch(function (error) {
@@ -31619,6 +31626,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      this.state = this.state || {};
       var movies = this.state.movies;
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
@@ -31797,7 +31805,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52495" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53751" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -3,6 +3,14 @@ import axios from 'axios';
 
 
 export class MainView extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      movies: null,
+      selectedMovie: null
+    };
+  }
   componentDidMount() {
     axios.get('<https://mooviv.herokuapp.com/movies>')
       .then(response => {
@@ -16,6 +24,7 @@ export class MainView extends React.Component {
   }
 
   render(){
+    this.state = this.state || {}
     const {movies} = this.state;
 
     if (!movies) return <div className="main-view"/>;
