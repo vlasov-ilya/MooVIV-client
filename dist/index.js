@@ -31602,13 +31602,19 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
     _classCallCheck(this, MainView);
 
-    _this = _super.call(this);
+    // Call the superclass constructor
+    // so React can initialize it
+    _this = _super.call(this); // Initialize the state to an empty object so we can destructure it later
+
     _this.state = {
       movies: null,
       selectedMovie: null
     };
     return _this;
-  }
+  } // This overrides the render() method of the superclass
+  // No need to call super() though, as it does nothing by default
+  // One of the "hooks" available in a React Component
+
 
   _createClass(MainView, [{
     key: "componentDidMount",
@@ -31616,6 +31622,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       _axios.default.get('https://mooviv.herokuapp.com/movies').then(function (response) {
+        // Assign the result to the state
         _this2.setState({
           movies: response.data
         });
@@ -31626,7 +31633,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var movies = this.state.movies;
+      // If the state isn't initialized, this will throw on runtime
+      // before the data is initially loaded
+      var movies = this.state.movies; // Before the movies have been loaded
+
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
@@ -31752,6 +31762,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+// Main component (will eventually use all the others)
 var MooVIVApplication = /*#__PURE__*/function (_React$Component) {
   _inherits(MooVIVApplication, _React$Component);
 
@@ -31771,9 +31782,10 @@ var MooVIVApplication = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return MooVIVApplication;
-}(_react.default.Component);
+}(_react.default.Component); // Find the root of our app
 
-var container = document.getElementsByClassName('app-container')[0];
+
+var container = document.getElementsByClassName('app-container')[0]; // Tell React to render our app in the root DOM element
 
 _reactDom.default.render(_react.default.createElement(MooVIVApplication), container);
 },{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"../../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -31804,7 +31816,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51094" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52234" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
