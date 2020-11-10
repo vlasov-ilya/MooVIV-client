@@ -31626,7 +31626,6 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      this.state = this.state || {};
       var movies = this.state.movies;
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
