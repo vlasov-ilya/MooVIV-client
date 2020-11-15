@@ -1,16 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import Button from 'react-bootstrap/Button';
 
 export class MovieView extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      mainView: null
-    };
+    this.state = {};
   }
 
   render() {
-    const { movie } = this.props;
+    const { movie, onClick } = this.props;
 
 
     if(!movie) return null;
@@ -36,9 +37,17 @@ export class MovieView extends React.Component {
           <span className="value">{movie.Director.Name}</span>
         </div>
         <div className="back-button">
-          <button onClick={() => window.open("mainView", "_self")} className="button">Back</button>
+          <button onClick={() => window.open("movieView", "_self")} className="button">Back</button>
         </div>
       </div>
     );
   }
+}
+
+MovieView.propTypes ={
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    ImagePath: PropTypes.string.isRequired
+  })
 }
