@@ -8,10 +8,10 @@ import axios from 'axios';
 
 
 export function RegistrationView(props) {
-  const [Username, setUsername] =  useState('');
-  const [Password, setPassword] = useState('');
-  const [Email, setEmail] = useState('');
-  const [Birthday, setBirthday] = useState('');
+  const [username, setUsername] =  useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [birthday, setBirthday] = useState('');
 
 
   const handleSubmit = (e) => {
@@ -21,6 +21,7 @@ export function RegistrationView(props) {
   Password: password,
   Email: email,
   Birthday: birthday
+  
 })
 .then(response => {
   const data = response.data;
@@ -30,10 +31,7 @@ export function RegistrationView(props) {
 .catch(e =>{
   console.log('erroe registering user')
 });
-    console.log(Username, Password, Email, Birthday );
-
-    props.onLoggedIn(Username);
-  };
+  }
 
   return (
     <div className="regitration-view">
@@ -41,21 +39,21 @@ export function RegistrationView(props) {
         <Form className="Registrtion-form">
           <Form.Group controlId="formBasicUsername" className="registration-item">
             <Form.Label>Create Username: </Form.Label>
-            <Form.Control type="text" placeholder="Username" value={Username} onChange={(e) => setUsername(e.target.value)}/>
+            <Form.Control type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}/>
             <Form.Text class="text-muted">Must be alpanumberic and have minimum of 8 characters.</Form.Text>
           </Form.Group>
           <Form.Group controlId="formBasicPassword" className="registration-item">
             <Form.Label>Create Password: </Form.Label>
-            <Form.Control type="password" placeholder="Password" value={Password} onChange={(e) => setPassword(e.target.value)}/>
+            <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
             <Form.Text class="text-muted">Must be alpanumberic and have 5-18 characters.</Form.Text>
           </Form.Group>
           <Form.Group controlId="formBasicEmail" className="registration-iten">
             <Form.Label>Enter Email Adress: </Form.Label>
-            <Form.Control type="text" placegolder="Email" value={Email} onChange={(e)=> setEmail(e.target.value)}/>
+            <Form.Control type="text" placegolder="Email" value={email} onChange={(e)=> setEmail(e.target.value)}/>
           </Form.Group>
           <Form.Group>
             <Form.Label>Enter Date of Birth: </Form.Label>
-            <Form.Control type="text" placeholder="MM-DD-YYYY" value={Birthday} onChange={(e)=> setBirthday(e.target.value)}/>
+            <Form.Control type="text" placeholder="MM-DD-YYYY" value={birthday} onChange={(e)=> setBirthday(e.target.value)}/>
           </Form.Group>
           <Button type="button" onClick={handleSubmit}>Submit</Button>
         </Form>
