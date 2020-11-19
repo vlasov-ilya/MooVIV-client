@@ -6,7 +6,16 @@ import Button from 'react-bootstrap/Button';
 import './registration-view.scss';
 import axios from 'axios';
 
-axios.post('https://mooviv.herokuapp.com/users', {
+export function RegistrationView(props) {
+  const [Username, setUsername] =  useState('');
+  const [Password, setPassword] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Birthday, setBirthday] = useState('');
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('https://mooviv.herokuapp.com/users', {
   Username : username,
   Password: password,
   Email: email,
@@ -20,17 +29,6 @@ axios.post('https://mooviv.herokuapp.com/users', {
 .catch(e =>{
   console.log('erroe registering user')
 });
-
-
-export function RegistrationView(props) {
-  const [Username, setUsername] =  useState('');
-  const [Password, setPassword] = useState('');
-  const [Email, setEmail] = useState('');
-  const [Birthday, setBirthday] = useState('');
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
     console.log(Username, Password, Email, Birthday );
 
     props.onLoggedIn(Username);

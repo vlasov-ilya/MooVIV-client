@@ -11,6 +11,8 @@ import { RegistrationView} from '../registration-view/registration-view';
 import { GenreView } from '../genre-view/gener-view';
 import { DirectorView } from '../director-view/director-view';
 import { ProfileView } from '../profile-view/profile-view';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 
 import Button from 'react-bootstrap/Button';
 
