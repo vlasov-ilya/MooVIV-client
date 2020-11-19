@@ -4,6 +4,9 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import { Link } from 'react-router-dom';
 
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
@@ -11,8 +14,6 @@ import { RegistrationView} from '../registration-view/registration-view';
 import { GenreView } from '../genre-view/gener-view';
 import { DirectorView } from '../director-view/director-view';
 import { ProfileView } from '../profile-view/profile-view';
-
-import Button from 'react-bootstrap/Button';
 
 export class MainView extends React.Component {
   constructor() {
