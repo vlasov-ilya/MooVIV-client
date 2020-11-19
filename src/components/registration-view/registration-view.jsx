@@ -4,12 +4,30 @@ import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import './registration-view.scss';
+import axios from 'axios';
+
+axios.post('https://mooviv.herokuapp.com/users', {
+  Username : username,
+  Password: password,
+  Email: email,
+  Birthday: birthday
+})
+.then(response => {
+  const data = response.data;
+  console.log(data);
+  window.open('/', '_self');
+})
+.catch(e =>{
+  console.log('erroe registering user')
+});
+
 
 export function RegistrationView(props) {
   const [Username, setUsername] =  useState('');
   const [Password, setPassword] = useState('');
   const [Email, setEmail] = useState('');
   const [Birthday, setBirthday] = useState('');
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,10 +45,10 @@ export function RegistrationView(props) {
             <Form.Control type="text" placeholder="Username" value={Username} onChange={(e) => setUsername(e.target.value)}/>
             <Form.Text class="text-muted">Must be alpanumberic and have minimum of 8 characters.</Form.Text>
           </Form.Group>
-          <Form.Group comtrolId="formBasicPassword" className="registration-item">
-            <Form.Label>Create Password:v</Form.Label>
-            <Form.Control type="text" placeholder="Password" value={Password} onCange={(e) => setPassword(e.target.value)}/>
-            <Form.Text className="text-muted">Must be alpanumberic and have 8-15 characters.</Form.Text>
+          <Form.Group controlId="formBasicPassword" className="registration-item">
+            <Form.Label>Create Password: </Form.Label>
+            <Form.Control type="password" placeholder="Password" value={Password} onChange={(e) => setPassword(e.target.value)}/>
+            <Form.Text class="text-muted">Must be alpanumberic and have 5-18 characters.</Form.Text>
           </Form.Group>
           <Form.Group controlId="formBasicEmail" className="registration-iten">
             <Form.Label>Enter Email Adress: </Form.Label>
@@ -44,7 +62,7 @@ export function RegistrationView(props) {
         </Form>
     </div>
   )
-} 
+  }
 
 RegistrationView.propTypes = {
   user: PropTypes.shape({
