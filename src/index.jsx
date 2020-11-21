@@ -1,15 +1,14 @@
+// client/src/index.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import { MainView } from './components/main-view/main-view';
 
 import './index.scss';
 
 class MooVIVApplication extends React.Component {
   render() {
-    return(
-      <div className= "mooviv">
-        <div>Good morning</div>
-      </div>
-    );
+    return <MainView/>;
   }
 }
 
