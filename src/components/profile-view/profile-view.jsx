@@ -25,7 +25,7 @@ export class ProfileView extends React.Component {
     const userID = localStorage.getItem('user');
 
     axios.get('https://mooviv.herokuapp.com/users/${userId}', {
-      headers: {Authorization: 'Bearer ${token}' }
+      headers: {Authorization: `Bearer ${token}` }
     })
     .then((res) => {
       this.setState({
@@ -50,7 +50,7 @@ export class ProfileView extends React.Component {
     const userId = localStorage.getItem('user');
     if (!confirm('Do you really want to delete your accounr?')) return;
     axios.delete('https://mooviv.herokuapp.com/users/${userId}/', {
-      headers: { Authorization: 'Bearer ${token}' }
+      headers: { Authorization: `Bearer ${token}` }
     })
     .then((res) => {
       console.log(res);
