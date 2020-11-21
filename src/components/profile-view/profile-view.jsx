@@ -48,7 +48,7 @@ export class ProfileView extends React.Component {
 
   deleteUser(token) {
     const userId = localStorage.getItem('user');
-    if (!confirm('Do you really want to delete your accounr?')) return;
+    if (!confirm('Do you really want to delete your account?')) return;
     axios.delete('https://mooviv.herokuapp.com/users/${userId}/', {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -58,7 +58,7 @@ export class ProfileView extends React.Component {
     });
   }
 
-  onLoggOut() {
+  onLogOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     window.open('/', '_self');
@@ -66,8 +66,8 @@ export class ProfileView extends React.Component {
 
   render() {
     const { movies } = this.props;
-    const userFavoritMovies = this.state.FavoriteMovies;
-    const FavoriteMoviesList = movies.filter((movies) => userFavoritMovies.includes(movie._id));
+    const userFavoriteMovies = this.state.FavoriteMovies;
+    const FavoriteMoviesList = movies.filter((movies) => userFavoriteMovies.includes(movie._id));
 
     return (
       <Container>
@@ -93,7 +93,7 @@ export class ProfileView extends React.Component {
                 <Link to={'/movies/${movie._id}'}>
                   <Button variant='link' className='fav-movie'>Movie Info</Button>
                 </Link>
-                  <Button variant='link' className='fav-monie' onClick={() => this.deleteFavoriteMovie(movie)}>Remove Movie</Button>
+                  <Button variant='link' className='fav-movie' onClick={() => this.deleteFavoriteMovie(movie)}>Remove Movie</Button>
               </Card.Body>
             </Card>
           );
