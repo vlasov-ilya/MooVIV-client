@@ -90,7 +90,7 @@ export class ProfileView extends React.Component {
             <Card key={movie._id} style={{width: '30rem'}} className="favorite-movies">
               <Card.Img variant='top' src={movie.ImagePath}/>
               <Card.Body>
-                <Link to={'/movies/${movie._id}'}>
+                <Link to={`/movies/${movie._id}`}>
                   <Button variant='link' className='fav-movie'>Movie Info</Button>
                 </Link>
                   <Button variant='link' className='fav-movie' onClick={() => this.deleteFavoriteMovie(movie)}>Remove Movie</Button>
