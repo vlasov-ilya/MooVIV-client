@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { RegistrationView } from '../registration-view/registration-view';
+// import { RegistrationView } from '../registration-view/registration-view';
 
 
 export function LoginView(props) {

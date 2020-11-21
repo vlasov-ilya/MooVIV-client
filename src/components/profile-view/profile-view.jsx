@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Button from 'react-bootstrap/Button';
-// import Link from 'react-bootstrap/NavLink';
 import Card from 'react-bootstrap/Card';
 
 export class ProfileView extends React.Component {

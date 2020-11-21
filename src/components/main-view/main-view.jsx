@@ -6,13 +6,14 @@ import { Link } from 'react-router-dom';
 
 
 import Container from 'react-bootstrap/Container';
-import {Row, Col, Button} from 'react-bootstrap/';
+import {Row, Col} from 'react-bootstrap/';
+import Button from 'react-bootstrap/Button';
 import {Navbar, Nav} from 'react-bootstrap/';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView} from '../registration-view/registration-view';
-import { GenreView } from '../genre-view/gener-view';
+import { GenreView } from '../genre-view/genre-view';
 import { DirectorView } from '../director-view/director-view';
 import { ProfileView } from '../profile-view/profile-view';
 
@@ -76,7 +77,7 @@ export class MainView extends React.Component {
       <Router>
         <div className="main-view">
           <Container>
-          <Navbar collapseOnSelect expand="lg" className="fixed-top navbar-main">
+          <Navbar collapseOnSelect expand="lg" className="navbar-main">
               <Navbar.Brand as={Link} to="/" className="brand-MooVIV">MooVIV!</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
@@ -84,7 +85,7 @@ export class MainView extends React.Component {
                   <Nav.Link as={Link} to="/" className="navbar-link">Home</Nav.Link>
                   <Nav.Link as={Link} to="/users/:Username" className="navbar-link">Profile</Nav.Link>
                 </Nav>
-                <button onClick={this.onLogOut} variant="dark" type="submit" className="button log-out-button"> Log Out</button>
+                <Button onClick={this.onLogOut} variant="dark" type="submit" className="button log-out"> Log Out</Button>
               </Navbar.Collapse>
             </Navbar>
           </Container>

@@ -29,26 +29,26 @@ export function RegistrationView(props) {
   window.open('/', '_self');
 })
 .catch(e =>{
-  console.log('erroe registering user')
+  console.log('error registering user')
 });
   }
 
   return (
-    <div className="regitration-view">
+    <div className="registration-view">
         <h2>Register a New MooVIV User</h2>
-        <Form className="Registrtion-form">
+        <Form className="Registration-form">
           <Form.Group controlId="formBasicUsername" className="registration-item">
             <Form.Label>Create Username: </Form.Label>
             <Form.Control type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}/>
-            <Form.Text class="text-muted">Must be alpanumberic and have minimum of 8 characters.</Form.Text>
+            <Form.Text class="text-muted">Must be alphanumberic and have minimum of 8 characters.</Form.Text>
           </Form.Group>
           <Form.Group controlId="formBasicPassword" className="registration-item">
             <Form.Label>Create Password: </Form.Label>
             <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-            <Form.Text class="text-muted">Must be alpanumberic and have 5-18 characters.</Form.Text>
+            <Form.Text class="text-muted">Must be alphanumberic and have 5-18 characters.</Form.Text>
           </Form.Group>
-          <Form.Group controlId="formBasicEmail" className="registration-iten">
-            <Form.Label>Enter Email Adress: </Form.Label>
+          <Form.Group controlId="formBasicEmail" className="registration-item">
+            <Form.Label>Enter Email Address: </Form.Label>
             <Form.Control type="text" placegolder="Email" value={email} onChange={(e)=> setEmail(e.target.value)}/>
           </Form.Group>
           <Form.Group>
