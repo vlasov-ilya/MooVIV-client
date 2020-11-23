@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
@@ -20,19 +21,25 @@ export class ProfileView extends React.Component {
     };
   }
 
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+    this.getUser(accessToken);
+    }
+  }
   getUser(token) {
-    const userID = localStorage.getItem('user');
+    const userId = localStorage.getItem('user');
 
-    axios.get('https://mooviv.herokuapp.com/users/${userId}', {
+    axios.get(`https://mooviv.herokuapp.com/users/${userId}`, {
       headers: {Authorization: `Bearer ${token}` }
     })
-    .then((res) => {
+    .then(response => {
       this.setState({
-        Username: res.data.Username,
-        Password: res.data.Password,
-        Email: res.data.Email,
-        Birthday: res.data.Birthday,
-        FavoriteMovies: res.data.Favorites
+        Username: response.data.Username,
+        Password: response.data.Password,
+        Email: response.data.Email,
+        Birthday: response.data.Birthday,
+        FavoriteMovies: response.data.FavoriteMovies
       });
     })
     .catch(function (error){
@@ -40,22 +47,19 @@ export class ProfileView extends React.Component {
     });
   }
 
-  componentDidMount() {
-    const accessToken = localStorage.getItem('token');
-    this.getUser(accessToken);
-  }
 
-  deleteUser(token) {
-    const userId = localStorage.getItem('user');
-    if (!confirm('Do you really want to delete your account?')) return;
-    axios.delete('https://mooviv.herokuapp.com/users/${userId}/', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    .then((res) => {
-      console.log(res);
-      this.componentDidMount();
-    });
-  }
+
+  // deleteUser(token) {
+  //   const userId = localStorage.getItem('user');
+  //   if (!confirm('Do you really want to delete your account?')) return;
+  //   axios.delete(`https://mooviv.herokuapp.com/users/${userId}/`, {
+  //     headers: { Authorization: `Bearer ${token}` }
+  //   })
+  //   .then((res) => {
+  //     console.log(res);
+  //     this.componentDidMount();
+  //   });
+  // }
 
   onLogOut() {
     localStorage.removeItem('token');
@@ -66,7 +70,7 @@ export class ProfileView extends React.Component {
   render() {
     const { movies } = this.props;
     const userFavoriteMovies = this.state.FavoriteMovies;
-    const FavoriteMoviesList = movies.filter((movies) => userFavoriteMovies.includes(movie._id));
+    const FavoriteMoviesList = movies.filter((movie) => userFavoriteMovies.includes(movie._Id));
 
     return (
       <Container>

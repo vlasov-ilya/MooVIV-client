@@ -40,6 +40,6 @@ MovieCard.propTypes = {
     Bio: PropTypes.string.isRequired,
     Birth: PropTypes.string.isRequired,
     Death: PropTypes.string
-  })
-    })
+  }),
+    }).isRequired
 };
