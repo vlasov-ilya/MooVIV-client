@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import { Link } from 'react-router-dom';
 
@@ -27,9 +27,19 @@ export class MainView extends React.Component {
     };
   }
 
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user')
+      });
+      this.getMovies(accessToken);
+    }
+  }
+
   getMovies(token) {
     axios.get('https://mooviv.herokuapp.com/movies', {
-      headers: {Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` }
     })
     .then(response => {
       this.setState({
@@ -41,15 +51,6 @@ export class MainView extends React.Component {
     });
   }
 
-  componentDidMount() {
-    let accessToken = localStorage.getItem('token');
-    if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem('user')
-      });
-      this.getMovies(accessToken);
-    }
-  }
 
   onLoggedIn(authData) {
     console.log(authData);
@@ -71,24 +72,23 @@ export class MainView extends React.Component {
   render() {
     const { movies, user } = this.state;
 
-    if (!movies) return <div className="main-view"/>;
+    if (!movies) return <Container className="main-view"/>;
 
     return (
       <Router>
-        <div className="main-view">
-          <Container>
+        <Container className="main-view">
           <Navbar collapseOnSelect expand="lg" className="navbar-main">
               <Navbar.Brand as={Link} to="/" className="brand-MooVIV">MooVIV!</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                   <Nav.Link as={Link} to="/" className="navbar-link">Home</Nav.Link>
-                  <Nav.Link as={Link} to="/users/:Username" className="navbar-link">Profile</Nav.Link>
-                </Nav>
+                  <Nav.Link as={Link} to={`/users/${user}`} className="navbar-link">Profile</Nav.Link>
                 <Button onClick={this.onLogOut} variant="dark" type="submit" className="button log-out"> Log Out</Button>
+                </Nav>
               </Navbar.Collapse>
             </Navbar>
-          </Container>
+          
             <Row>
             <Route exact patch="/" render={() => {
               if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
@@ -103,22 +103,22 @@ export class MainView extends React.Component {
           <Route exact path="/movies/:movieId" render={({match}) => <MovieView movie={movies.find(m => m._id === match.params.movieId)}/>}/>
           <Route exact path="/register" render={() => <RegistrationView />} />
           <Route exact path="/genres/:name" render={({ match }) => {
-            if (!movies) return <div className="main-view"/>
+            if (!movies) return <Container className="main-view"/>
             return <GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre}/>
           }}/>
           <Route exact path="/directors/:name" render={({ match}) => {
-            if (!movies) return <div className="main-view"/>
-            return <DirectorView director={movies.find(m => m.Director.Name === match.name).Director}/>
+            if (!movies) return <Container className="main-view"/>
+            return <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director}/>
           }}/>
           <Route exact path="/users/:username" render={({ match}) => {
-            if (!user) return <div className="main-view"/>
+            if (!user) return <Container className="main-view"/>
             return <ProfileView user={user} movies={movies} />
           }}/>
           <Route exact path="/logout" render={() => <LoginView/>}/>
 
 
 
-          </div>
+          </Container>
       </Router>
     );
   }

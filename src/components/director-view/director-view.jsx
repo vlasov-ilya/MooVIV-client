@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
 
 export class DirectorView extends React.Component {
 
@@ -16,31 +17,29 @@ export class DirectorView extends React.Component {
   render() {
     const { director } = this.props;
 
-    if (!director) return <div className='main-view'/>;
+    if (!director) return null;
 
     return(
-      <div className='director-view'>
+      <Container className='director-view'>
         <Card style={{width: '30rem'}} className='director-card'>
           <Card.Body>
-            <Card.Title className='director-name'>{Director.Name}</Card.Title>
-            <Card.Text>Born: {Director.Birth}</Card.Text>
-            <Card.Text>Died: {Director.Death}</Card.Text>
-            <Card.Text>Bio: {Director.Bio}</Card.Text>
+            <Card.Title>{director.Name}</Card.Title>
+            <Card.Text>Born: {director.Birth}</Card.Text>
+            <Card.Text>Died: {director.Death}</Card.Text>
+            <Card.Text>Bio: {director.Bio}</Card.Text>
           </Card.Body>
           <Link to={'/'}>
             <Button variant='link' className='button-back'>Go Back</Button>
           </Link>
         </Card>
-      </div>
-    )
+      </Container>
+    );
   }
 }
 
 DirectorView.propTypes = {
-  Director: PropTypes.shape({
+  director: PropTypes.shape({
     Name: PropTypes.string.isRequired,
     Bio: PropTypes.string.isRequired,
-    Birth: PropTypes.string.isRequired,
-    Death: PropTypes.string
-  })
-}
+  }).isRequired,
+};

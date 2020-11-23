@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 // import { RegistrationView } from '../registration-view/registration-view';
-
+import Container from 'react-bootstrap/Container';
 
 export function LoginView(props) {
-  const [ username, setUsername ] = useState('');
-  const [ password, setPassword ] = useState('');
+  const [ username, setUsername ] = useState("");
+  const [ password, setPassword ] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://mooviv.herokuapp.com/login', {
+    axios.post(`https://mooviv.herokuapp.com/login`, {
       Username: username,
       Password: password
     })
@@ -28,7 +28,7 @@ export function LoginView(props) {
   };
 
   return(
-  <div className="login-view">
+  <Container className="login-view">
     <h1>Welcome to MooVIV!</h1>
     <Form className="login-view">
       <Form.Group controleId="formBasicUsername" className="login-item">
@@ -42,18 +42,18 @@ export function LoginView(props) {
     </Form>
     <div className="login-buttons">
       <Button onClick={handleSubmit} variant="primary" type="submit" className="button-login">LogIn</Button> 
-      <Link to={"/register"}>
+      <Link to={`/register`}>
         <Button variant="success" className="button-register">Join MooVIV</Button>
       </Link>
     </div>
-  </div>
+  </Container>
   );
 }
 
-LoginView.propTypes = {
-  user: PropTypes.shape({
-    Username: PropTypes.string.isRequired,
-    Password: PropTypes.string.isRequired
-  }),
-  onLoggedIn: PropTypes.func.isRequired
-};
+// LoginView.propTypes = {
+//   user: PropTypes.shape({
+//     Username: PropTypes.string.isRequired,
+//     Password: PropTypes.string.isRequired
+//   }),
+//   onLoggedIn: PropTypes.func.isRequired
+// };

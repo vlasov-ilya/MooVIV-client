@@ -8,7 +8,7 @@ import './index.scss';
 
 class MooVIVApplication extends React.Component {
   render() {
-    return <MainView/>;
+    return <MainView />;
   }
 }
 
