@@ -4,6 +4,12 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import { Link } from 'react-router-dom';
 
+<<<<<<< Updated upstream
+=======
+
+import Container from 'react-bootstrap/Container';
+import {Row, Col} from 'react-bootstrap/';
+>>>>>>> Stashed changes
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
@@ -28,7 +34,7 @@ export class MainView extends React.Component {
 
   getMovies(token) {
     axios.get('https://mooviv.herokuapp.com/movies', {
-      headers: {Authorization: 'Bearer ${token}' }
+      headers: {Authorization: `Bearer ${token}` }
     })
     .then(response => {
       this.setState({
