@@ -67,15 +67,21 @@ export class ProfileView extends React.Component {
     window.open('/', '_self');
   }
 
-  removeFromFavorite(e) {
+  removeFromFavorite = (e) => {
     e.preventDefault();
 
     const username = localStorage.getItem('user');
     const token = localStorage.getItem('token');
 
     axios.delete(`https://mooviv.herokuapp.com/users/${username}/Movies/${this.props.movie._id}`,{},{
-      
+      headers: { Authorization: `Bearer ${token}`}
     })
+    .then(response => {
+      alert(`${this.props.movie.Title} removed from your favorites`)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
 
@@ -105,7 +111,7 @@ export class ProfileView extends React.Component {
             <Card key={movie._id} style={{width: '30rem'}} className="favorite-movies">
               <Card.Img variant='top' src={movie.ImagePath}/>
               <Card.Body>
-                <Link to={`/movies/${movie._id}`}>
+                <Link to={`/movies/${this.props.movie._id}`}>
                   <Button variant='link' className='fav-movie'>Movie Info</Button>
                 </Link>
                   <Button variant='link' className='fav-movie' onClick={() => this.deleteFavoriteMovie(movie)}>Remove Movie</Button>

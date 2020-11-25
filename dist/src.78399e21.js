@@ -51493,12 +51493,29 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(ProfileView);
 
-  function ProfileView(props) {
+  function ProfileView() {
     var _this;
 
     _classCallCheck(this, ProfileView);
 
-    _this = _super.call(this, props);
+    _this = _super.call(this);
+
+    _this.removeFromFavorite = function (e) {
+      e.preventDefault();
+      var username = localStorage.getItem('user');
+      var token = localStorage.getItem('token');
+
+      _axios.default.delete("https://mooviv.herokuapp.com/users/".concat(username, "/Movies/").concat(_this.props.movie._id), {}, {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        alert("".concat(_this.props.movie.Title, " removed from your favorites"));
+      }).catch(function (error) {
+        console.log(error);
+      });
+    };
+
     _this.state = {
       Username: null,
       Password: null,
@@ -51605,7 +51622,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           variant: "top",
           src: movie.ImagePath
         }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_reactRouterDom.Link, {
-          to: "/movies/".concat(movie._id)
+          to: "/movies/".concat(_this3.props.movie._id)
         }, _react.default.createElement(_Button.default, {
           variant: "link",
           className: "fav-movie"
