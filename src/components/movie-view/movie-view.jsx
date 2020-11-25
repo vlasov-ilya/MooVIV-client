@@ -3,12 +3,29 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 export class MovieView extends React.Component {
   constructor() {
     super();
 
     this.state = {};
+  }
+
+  addToFavorites = (e) => {
+    e.preventDefault()
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('user');
+
+    axios.post(`https://mooviv.herokuapp.com/users/${username}/Movies/${this.props.movie._id}`,{},{
+      headers: { Authorization: `Bearer ${token}`}
+    })
+    .than( response => {
+      alert(`${this.props.movie.Title} added to favorites`)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   render() {
@@ -42,6 +59,9 @@ export class MovieView extends React.Component {
           </Link>
           <Link to={`/genres/${movie.Genre.Name}`}>
             <Button variant="link">Genre</Button>
+          </Link>
+          <Link to=''>
+            <Button onClick={this.addToFavorites}>Add to favorites</Button>
           </Link>
         </div>
         <div className="back-button">

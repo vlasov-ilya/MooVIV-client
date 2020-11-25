@@ -90,7 +90,7 @@ export class MainView extends React.Component {
             </Navbar>
           
             <Row>
-            <Route exact patch="/" render={() => {
+            <Route exact path="/" render={() => {
               if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
                 return movies.map(m => 
                 <Col key={m._id} className="justify-content-around">

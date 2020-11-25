@@ -31,11 +31,11 @@ export function LoginView(props) {
   <Container className="login-view">
     <h1>Welcome to MooVIV!</h1>
     <Form className="login-view">
-      <Form.Group controleId="formBasicUsername" className="login-item">
+      <Form.Group controlId="formBasicUsername" className="login-item">
       <Form.Label>Username: </Form.Label>
       <Form.Control type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Enter Username" /> 
       </Form.Group>
-      <Form.Group controleId="formBasicPassword" className="login-item">
+      <Form.Group controlId="formBasicPassword" className="login-item">
       <Form.Label>Password: </Form.Label>
       <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter Passport" /> 
       </Form.Group>
