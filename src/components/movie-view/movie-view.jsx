@@ -20,7 +20,7 @@ export class MovieView extends React.Component {
     axios.post(`https://mooviv.herokuapp.com/users/${username}/Movies/${this.props.movie._id}`,{},{
       headers: { Authorization: `Bearer ${token}`}
     })
-    .than( response => {
+    .then(response => {
       alert(`${this.props.movie.Title} added to favorites`)
     })
     .catch(function (error) {

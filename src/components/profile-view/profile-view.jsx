@@ -8,8 +8,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 export class ProfileView extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super()
 
     this.state = {
       Username: null,
@@ -24,7 +24,7 @@ export class ProfileView extends React.Component {
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
-    this.getUser(accessToken);
+      this.getUser(accessToken);
     }
   }
   getUser(token) {
@@ -66,6 +66,18 @@ export class ProfileView extends React.Component {
     localStorage.removeItem('user');
     window.open('/', '_self');
   }
+
+  removeFromFavorite(e) {
+    e.preventDefault();
+
+    const username = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+
+    axios.delete(`https://mooviv.herokuapp.com/users/${username}/Movies/${this.props.movie._id}`,{},{
+      
+    })
+  }
+
 
   render() {
     const { movies } = this.props;
