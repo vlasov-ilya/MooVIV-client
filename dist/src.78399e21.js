@@ -51464,6 +51464,8 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
+var _reactBootstrap = require("react-bootstrap");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -51562,6 +51564,76 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "handleUpdate",
+    value: function handleUpdate(e, newUsername, newPassword, newEmail, newBirthday) {
+      var _this4 = this;
+
+      this.setState({
+        validated: null
+      });
+      var form = e.currentTarget;
+
+      if (form.checkValidity() === false) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.setState({
+          validated: true
+        });
+        return;
+      }
+
+      e.preventDefault();
+      var token = localStorage.getItem('token');
+      var username = localStorage.getItem('user');
+
+      _axios.default.put("https://mooviv.herokuapp.com/users/".concat(username, "/"), {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }, {
+        data: {
+          Username: newUsername ? newUsername : this.state.Username,
+          Password: newPassword ? newPassword : this.state.Password,
+          Email: newEmail ? newEmail : this.props.Email,
+          Birthday: newBirthday ? newBirthday : this.props.Birthday
+        }
+      }).then(function (response) {
+        alert('Changes Saved');
+
+        _this4.setState({
+          Username: response.data.Username,
+          Password: response.data.Password,
+          Email: response.data.Email,
+          Birthday: response.data.Birthday
+        });
+
+        localStorage.setItem('user', _this4.state.Username);
+        window.open("/user/".concat(username), '_self');
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "setUsername",
+    value: function setUsername(input) {
+      this.Username = input;
+    }
+  }, {
+    key: "setPassword",
+    value: function setPassword(input) {
+      this.Password = input;
+    }
+  }, {
+    key: "setEmail",
+    value: function setEmail(input) {
+      this.Email = input;
+    }
+  }, {
+    key: "setBirthday",
+    value: function setBirthday(input) {
+      this.Birthday = input;
+    }
+  }, {
     key: "onLogOut",
     value: function onLogOut() {
       localStorage.removeItem('token');
@@ -51571,22 +51643,22 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "removeFromFavorite",
     value: function removeFromFavorite(e, movie) {
-      var _this4 = this;
+      var _this5 = this;
 
       e.preventDefault();
       var username = localStorage.getItem('user');
       var token = localStorage.getItem('token');
 
-      _axios.default.delete("https://mooviv.herokuapp.com/users/".concat(username, "/movies/").concat(movie), {
+      _axios.default.delete("https://mooviv.herokuapp.com/users/".concat(username, "/movies/").concat(movie, "/"), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (res) {
         console.log(res);
 
-        _this4.componentDidMount();
+        _this5.componentDidMount();
 
-        alert("".concat(_this4.props.movie.Title, " removed from your favorites"));
+        alert("".concat(_this5.props.movie.Title, " removed from your favorites"));
       }).catch(function (error) {
         console.log(error);
       });
@@ -51594,9 +51666,10 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       var movies = this.props.movies;
+      var validated = this.state;
       var userFavoriteMovies = this.state.FavoriteMovies;
       var FavoriteMoviesList = movies.filter(function (movie) {
         return userFavoriteMovies.includes(movie._id);
@@ -51617,7 +51690,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "profile-text"
       }, "Birthday: ", this.state.Birthday), _react.default.createElement(_Button.default, {
         onClick: function onClick() {
-          return _this5.deleteUser();
+          return _this6.deleteUser();
         },
         className: "delete-button"
       }, "Delete account"), _react.default.createElement(_reactRouterDom.Link, {
@@ -51644,9 +51717,74 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         }, "Movie Info")), _react.default.createElement(_reactRouterDom.Link, {
           to: ""
         }, _react.default.createElement(_Button.default, {
-          onClick: _this5.removeFromFavorite
+          onClick: _this6.removeFromFavorite
         }, "Remove Movie"))));
-      })));
+      })), _react.default.createElement(_Container.default, null, _react.default.createElement("h3", null, "Profile updates"), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_reactBootstrap.Form, {
+        noValidate: true,
+        validated: validated,
+        className: "update",
+        onSubmit: function onSubmit(e) {
+          return _this6.handleUpdate(e, newUsername, newPassword, newEmail, newBirthday);
+        }
+      }, _react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formBasicUsername"
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "form-lable"
+      }, "Username"), _react.default.createElement(_reactBootstrap.Form.Control, {
+        type: "text",
+        placeholder: "New Username",
+        onChange: function onChange(e) {
+          return _this6.setUsername(e.target.value);
+        },
+        pattern: "[a-zA-Z0-9]{6,}"
+      }), _react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, "Please enter username with at least 6 alphanumeric characters.")), _react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formBasicPassword"
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "form-lable"
+      }, "Password", _react.default.createElement("span", {
+        className: "required"
+      }, "*")), _react.default.createElement(_reactBootstrap.Form.Control, {
+        type: "password",
+        placeholder: "Current or New Password",
+        onChange: function onChange(e) {
+          return _this6.setPassword(e.target.value);
+        },
+        pattern: ".{6,}",
+        required: true
+      }), _react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, "Please enter a valid password with at lest 6 characters.")), _react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formBasicEmail"
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "form-lable"
+      }, "Email"), _react.default.createElement(_reactBootstrap.Form.Control, {
+        type: "email",
+        placeholder: "New Email",
+        onChange: function onChange(e) {
+          return _this6.setEmail(e.target.value);
+        }
+      }), _react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, "Please enter a valid email address. ")), _react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formBasicBirthday"
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "form-lable"
+      }, "Birthday"), _react.default.createElement(_reactBootstrap.Form.Control, {
+        type: "data",
+        placeholder: "New Birthday",
+        onChange: function onChange(e) {
+          return _this6.setBirthday(e.target.value);
+        }
+      }), _react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, "Please enter a valid birthday.")), _react.default.createElement(_Button.default, {
+        className: "update profile-button",
+        variant: "success",
+        type: "submit",
+        block: true
+      }, "Update profile")))));
     }
   }]);
 
@@ -51663,7 +51801,7 @@ ProfileView.propTypes = {
     FavoriteMovies: _propTypes.default.array
   })
 };
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

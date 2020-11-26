@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Form } from 'react-bootstrap';
 
 export class ProfileView extends React.Component {
   constructor() {
@@ -65,6 +66,67 @@ export class ProfileView extends React.Component {
     });
   }
 
+  handleUpdate(e, newUsername, newPassword, newEmail, newBirthday){
+    this.setState({
+      validated: null,
+    });
+
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.setState({
+        validated: true,
+      });
+      return;
+    }
+    e.preventDefault();
+
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('user');
+
+    axios.put(`https://mooviv.herokuapp.com/users/${username}/`,{
+      headers: {Authorization: `Bearer ${token}`}
+    },{
+      data: {
+        Username: newUsername ? newUsername : this.state.Username,
+        Password: newPassword ? newPassword : this.state.Password,
+        Email: newEmail ? newEmail: this.props.Email,
+        Birthday: newBirthday ? newBirthday : this.props.Birthday,
+      },
+    })
+    .then((response) => {
+      alert('Changes Saved');
+      this.setState({
+        Username: response.data.Username,
+        Password: response.data.Password,
+        Email: response.data.Email,
+        Birthday: response.data.Birthday
+      });
+      localStorage.setItem('user', this.state.Username);
+      window.open(`/user/${username}`, '_self');
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  }
+
+  setUsername(input) {
+    this.Username = input;
+  }
+
+  setPassword(input) {
+    this.Password = input;
+  }
+
+  setEmail(input) {
+    this.Email = input;
+  }
+
+  setBirthday(input) {
+    this.Birthday = input;
+  }
+
   onLogOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -76,7 +138,7 @@ export class ProfileView extends React.Component {
     const username = localStorage.getItem('user');
     const token = localStorage.getItem('token');
 
-    axios.delete(`https://mooviv.herokuapp.com/users/${username}/movies/${movie}`,{
+    axios.delete(`https://mooviv.herokuapp.com/users/${username}/movies/${movie}/`,{
       headers: { Authorization: `Bearer ${token}`}
     })
     .then((res) => {
@@ -92,6 +154,7 @@ export class ProfileView extends React.Component {
 
   render() {
     const { movies } = this.props;
+    const validated = this.state;
     const userFavoriteMovies = this.state.FavoriteMovies;
     const FavoriteMoviesList = movies.filter((movie) => userFavoriteMovies.includes(movie._id));
     const username = localStorage.getItem('user');
@@ -127,6 +190,36 @@ export class ProfileView extends React.Component {
             </Card>
           );
         })}
+      </Container>
+      <Container>
+        <h3>Profile updates</h3>
+        <Card.Body>
+          <Form noValidate validated={validated} className="update" onSubmit={(e) => this.handleUpdate(e, newUsername, newPassword, newEmail, newBirthday)}>
+            <Form.Group controlId="formBasicUsername">
+              <Form.Label className = "form-lable">Username</Form.Label>
+              <Form.Control type="text" placeholder="New Username" onChange={(e) => this.setUsername(e.target.value)} pattern="[a-zA-Z0-9]{6,}"/>
+              <Form.Control.Feedback type="invalid">Please enter username with at least 6 alphanumeric characters.</Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label className = "form-lable">Password<span className="required">*</span></Form.Label>
+              <Form.Control type="password" placeholder="Current or New Password" onChange={(e) => this.setPassword(e.target.value)} pattern=".{6,}" required/>
+              <Form.Control.Feedback type="invalid">Please enter a valid password with at lest 6 characters.</Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label className = "form-lable">Email</Form.Label>
+              <Form.Control type="email" placeholder="New Email" onChange={(e) => this.setEmail(e.target.value)}/>
+              <Form.Control.Feedback type="invalid">Please enter a valid email address. </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group controlId="formBasicBirthday">
+              <Form.Label className = "form-lable">Birthday</Form.Label>
+              <Form.Control type="data" placeholder="New Birthday" onChange={(e) => this.setBirthday(e.target.value)}/>
+              <Form.Control.Feedback type="invalid">Please enter a valid birthday.</Form.Control.Feedback>
+            </Form.Group>
+            <Button className="update profile-button" variant="success" type="submit" block>
+              Update profile
+            </Button>
+          </Form>
+        </Card.Body>
       </Container>
       </Container>
     );
