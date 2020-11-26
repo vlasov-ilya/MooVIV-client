@@ -49,17 +49,21 @@ export class ProfileView extends React.Component {
 
 
 
-  // deleteUser(token) {
-  //   const userId = localStorage.getItem('user');
-  //   if (!confirm('Do you really want to delete your account?')) return;
-  //   axios.delete(`https://mooviv.herokuapp.com/users/${userId}/`, {
-  //     headers: { Authorization: `Bearer ${token}` }
-  //   })
-  //   .then((res) => {
-  //     console.log(res);
-  //     this.componentDidMount();
-  //   });
-  // }
+  deleteUser(e) {
+    const username = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    if (!confirm('Do you really want to delete your account?')) return;
+    
+    axios.delete(`https://mooviv.herokuapp.com/users/${username}/`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then((res) => {
+      console.log(res);
+      this.componentDidMount();
+      
+      
+    });
+  }
 
   onLogOut() {
     localStorage.removeItem('token');
@@ -67,16 +71,17 @@ export class ProfileView extends React.Component {
     window.open('/', '_self');
   }
 
-  removeFromFavorite = (e) => {
-    e.preventDefault();
-
+  removeFromFavorite (e, movie) {
+    e.preventDefault()
     const username = localStorage.getItem('user');
     const token = localStorage.getItem('token');
 
-    axios.delete(`https://mooviv.herokuapp.com/users/${username}/Movies/${this.props.movie._id}`,{},{
+    axios.delete(`https://mooviv.herokuapp.com/users/${username}/movies/${movie}`,{
       headers: { Authorization: `Bearer ${token}`}
     })
-    .then(response => {
+    .then((res) => {
+      console.log(res);
+      this.componentDidMount();
       alert(`${this.props.movie.Title} removed from your favorites`)
     })
     .catch(function (error) {
@@ -88,7 +93,8 @@ export class ProfileView extends React.Component {
   render() {
     const { movies } = this.props;
     const userFavoriteMovies = this.state.FavoriteMovies;
-    const FavoriteMoviesList = movies.filter((movie) => userFavoriteMovies.includes(movie._Id));
+    const FavoriteMoviesList = movies.filter((movie) => userFavoriteMovies.includes(movie._id));
+    const username = localStorage.getItem('user');
 
     return (
       <Container>
@@ -111,10 +117,12 @@ export class ProfileView extends React.Component {
             <Card key={movie._id} style={{width: '30rem'}} className="favorite-movies">
               <Card.Img variant='top' src={movie.ImagePath}/>
               <Card.Body>
-                <Link to={`/movies/${this.props.movie._id}`}>
+                <Link to={`/movies/${movie._id}`}>
                   <Button variant='link' className='fav-movie'>Movie Info</Button>
+                </Link >
+                <Link to=''>
+                  <Button onClick={this.removeFromFavorite}>Remove Movie</Button>
                 </Link>
-                  <Button variant='link' className='fav-movie' onClick={() => this.deleteFavoriteMovie(movie)}>Remove Movie</Button>
               </Card.Body>
             </Card>
           );

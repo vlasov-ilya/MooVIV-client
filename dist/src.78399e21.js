@@ -51499,23 +51499,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, ProfileView);
 
     _this = _super.call(this);
-
-    _this.removeFromFavorite = function (e) {
-      e.preventDefault();
-      var username = localStorage.getItem('user');
-      var token = localStorage.getItem('token');
-
-      _axios.default.delete("https://mooviv.herokuapp.com/users/".concat(username, "/Movies/").concat(_this.props.movie._id), {}, {
-        headers: {
-          Authorization: "Bearer ".concat(token)
-        }
-      }).then(function (response) {
-        alert("".concat(_this.props.movie.Title, " removed from your favorites"));
-      }).catch(function (error) {
-        console.log(error);
-      });
-    };
-
     _this.state = {
       Username: null,
       Password: null,
@@ -51558,18 +51541,26 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }).catch(function (error) {
         console.log(error);
       });
-    } // deleteUser(token) {
-    //   const userId = localStorage.getItem('user');
-    //   if (!confirm('Do you really want to delete your account?')) return;
-    //   axios.delete(`https://mooviv.herokuapp.com/users/${userId}/`, {
-    //     headers: { Authorization: `Bearer ${token}` }
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //     this.componentDidMount();
-    //   });
-    // }
+    }
+  }, {
+    key: "deleteUser",
+    value: function deleteUser(e) {
+      var _this3 = this;
 
+      var username = localStorage.getItem('user');
+      var token = localStorage.getItem('token');
+      if (!confirm('Do you really want to delete your account?')) return;
+
+      _axios.default.delete("https://mooviv.herokuapp.com/users/".concat(username, "/"), {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (res) {
+        console.log(res);
+
+        _this3.componentDidMount();
+      });
+    }
   }, {
     key: "onLogOut",
     value: function onLogOut() {
@@ -51578,15 +51569,39 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       window.open('/', '_self');
     }
   }, {
+    key: "removeFromFavorite",
+    value: function removeFromFavorite(e, movie) {
+      var _this4 = this;
+
+      e.preventDefault();
+      var username = localStorage.getItem('user');
+      var token = localStorage.getItem('token');
+
+      _axios.default.delete("https://mooviv.herokuapp.com/users/".concat(username, "/movies/").concat(movie), {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (res) {
+        console.log(res);
+
+        _this4.componentDidMount();
+
+        alert("".concat(_this4.props.movie.Title, " removed from your favorites"));
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this5 = this;
 
       var movies = this.props.movies;
       var userFavoriteMovies = this.state.FavoriteMovies;
       var FavoriteMoviesList = movies.filter(function (movie) {
-        return userFavoriteMovies.includes(movie._Id);
+        return userFavoriteMovies.includes(movie._id);
       });
+      var username = localStorage.getItem('user');
       return _react.default.createElement(_Container.default, null, _react.default.createElement("h2", {
         className: "profile-title"
       }, "Page of ", this.state.Username), _react.default.createElement(_Card.default, {
@@ -51602,7 +51617,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "profile-text"
       }, "Birthday: ", this.state.Birthday), _react.default.createElement(_Button.default, {
         onClick: function onClick() {
-          return _this3.deleteUser();
+          return _this5.deleteUser();
         },
         className: "delete-button"
       }, "Delete account"), _react.default.createElement(_reactRouterDom.Link, {
@@ -51622,17 +51637,15 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           variant: "top",
           src: movie.ImagePath
         }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_reactRouterDom.Link, {
-          to: "/movies/".concat(_this3.props.movie._id)
+          to: "/movies/".concat(movie._id)
         }, _react.default.createElement(_Button.default, {
           variant: "link",
           className: "fav-movie"
-        }, "Movie Info")), _react.default.createElement(_Button.default, {
-          variant: "link",
-          className: "fav-movie",
-          onClick: function onClick() {
-            return _this3.deleteFavoriteMovie(movie);
-          }
-        }, "Remove Movie")));
+        }, "Movie Info")), _react.default.createElement(_reactRouterDom.Link, {
+          to: ""
+        }, _react.default.createElement(_Button.default, {
+          onClick: _this5.removeFromFavorite
+        }, "Remove Movie"))));
       })));
     }
   }]);
@@ -51998,7 +52011,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50747" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55270" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
