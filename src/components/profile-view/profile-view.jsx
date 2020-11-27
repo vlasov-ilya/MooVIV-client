@@ -85,14 +85,16 @@ export class ProfileView extends React.Component {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('user');
 
-    axios.put(`https://mooviv.herokuapp.com/users/${username}/`,{
-      headers: {Authorization: `Bearer ${token}`}
-    },{
+    axios({
+      method: 'put',
+      url:
+    `https://mooviv.herokuapp.com/users/${username}/`,
+      headers: { Authorization: `Bearer ${token}` },
       data: {
         Username: newUsername ? newUsername : this.state.Username,
         Password: newPassword ? newPassword : this.state.Password,
-        Email: newEmail ? newEmail: this.props.Email,
-        Birthday: newBirthday ? newBirthday : this.props.Birthday,
+        Email: newEmail ? newEmail: this.state.Email,
+        Birthday: newBirthday ? newBirthday : this.state.Birthday,
       },
     })
     .then((response) => {
@@ -133,18 +135,17 @@ export class ProfileView extends React.Component {
     window.open('/', '_self');
   }
 
-  removeFromFavorite (e, movie) {
-    e.preventDefault()
+  removeFromFavorite (movie) {
     const username = localStorage.getItem('user');
     const token = localStorage.getItem('token');
 
-    axios.delete(`https://mooviv.herokuapp.com/users/${username}/movies/${movie}/`,{
+    axios.delete(`https://mooviv.herokuapp.com/users/${username}/Favorites/${movie}/`,{
       headers: { Authorization: `Bearer ${token}`}
     })
-    .then((res) => {
-      console.log(res);
+    .then(() => {
+      alert(`Movie removed from your favorites`);
       this.componentDidMount();
-      alert(`${this.props.movie.Title} removed from your favorites`)
+      // window.open('/','_self')
     })
     .catch(function (error) {
       console.log(error);
@@ -154,10 +155,11 @@ export class ProfileView extends React.Component {
 
   render() {
     const { movies } = this.props;
-    const validated = this.state;
+    const { validated } = this.state;
     const userFavoriteMovies = this.state.FavoriteMovies;
     const FavoriteMoviesList = movies.filter((movie) => userFavoriteMovies.includes(movie._id));
     const username = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
 
     return (
       <Container>
@@ -184,7 +186,7 @@ export class ProfileView extends React.Component {
                   <Button variant='link' className='fav-movie'>Movie Info</Button>
                 </Link >
                 <Link to=''>
-                  <Button onClick={this.removeFromFavorite}>Remove Movie</Button>
+                  <Button onClick={() =>this.removeFromFavorite(movie._id)}>Remove Movie</Button>
                 </Link>
               </Card.Body>
             </Card>
@@ -194,7 +196,7 @@ export class ProfileView extends React.Component {
       <Container>
         <h3>Profile updates</h3>
         <Card.Body>
-          <Form noValidate validated={validated} className="update" onSubmit={(e) => this.handleUpdate(e, newUsername, newPassword, newEmail, newBirthday)}>
+          <Form noValidate validated={validated} className="update" onSubmit={(e) => this.handleUpdate(e, this.Username, this.Password, this.Email, this.Birthday)}>
             <Form.Group controlId="formBasicUsername">
               <Form.Label className = "form-lable">Username</Form.Label>
               <Form.Control type="text" placeholder="New Username" onChange={(e) => this.setUsername(e.target.value)} pattern="[a-zA-Z0-9]{6,}"/>

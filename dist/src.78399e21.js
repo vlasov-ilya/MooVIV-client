@@ -51585,17 +51585,17 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       e.preventDefault();
       var token = localStorage.getItem('token');
       var username = localStorage.getItem('user');
-
-      _axios.default.put("https://mooviv.herokuapp.com/users/".concat(username, "/"), {
+      (0, _axios.default)({
+        method: 'put',
+        url: "https://mooviv.herokuapp.com/users/".concat(username, "/"),
         headers: {
           Authorization: "Bearer ".concat(token)
-        }
-      }, {
+        },
         data: {
           Username: newUsername ? newUsername : this.state.Username,
           Password: newPassword ? newPassword : this.state.Password,
-          Email: newEmail ? newEmail : this.props.Email,
-          Birthday: newBirthday ? newBirthday : this.props.Birthday
+          Email: newEmail ? newEmail : this.state.Email,
+          Birthday: newBirthday ? newBirthday : this.state.Birthday
         }
       }).then(function (response) {
         alert('Changes Saved');
@@ -51642,23 +51642,21 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "removeFromFavorite",
-    value: function removeFromFavorite(e, movie) {
+    value: function removeFromFavorite(movie) {
       var _this5 = this;
 
-      e.preventDefault();
       var username = localStorage.getItem('user');
       var token = localStorage.getItem('token');
 
-      _axios.default.delete("https://mooviv.herokuapp.com/users/".concat(username, "/movies/").concat(movie, "/"), {
+      _axios.default.delete("https://mooviv.herokuapp.com/users/".concat(username, "/Favorites/").concat(movie, "/"), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
-      }).then(function (res) {
-        console.log(res);
+      }).then(function () {
+        alert("Movie removed from your favorites");
 
-        _this5.componentDidMount();
+        _this5.componentDidMount(); // window.open('/','_self')
 
-        alert("".concat(_this5.props.movie.Title, " removed from your favorites"));
       }).catch(function (error) {
         console.log(error);
       });
@@ -51669,12 +51667,13 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var _this6 = this;
 
       var movies = this.props.movies;
-      var validated = this.state;
+      var validated = this.state.validated;
       var userFavoriteMovies = this.state.FavoriteMovies;
       var FavoriteMoviesList = movies.filter(function (movie) {
         return userFavoriteMovies.includes(movie._id);
       });
       var username = localStorage.getItem('user');
+      var token = localStorage.getItem('token');
       return _react.default.createElement(_Container.default, null, _react.default.createElement("h2", {
         className: "profile-title"
       }, "Page of ", this.state.Username), _react.default.createElement(_Card.default, {
@@ -51717,14 +51716,16 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         }, "Movie Info")), _react.default.createElement(_reactRouterDom.Link, {
           to: ""
         }, _react.default.createElement(_Button.default, {
-          onClick: _this6.removeFromFavorite
+          onClick: function onClick() {
+            return _this6.removeFromFavorite(movie._id);
+          }
         }, "Remove Movie"))));
       })), _react.default.createElement(_Container.default, null, _react.default.createElement("h3", null, "Profile updates"), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_reactBootstrap.Form, {
         noValidate: true,
         validated: validated,
         className: "update",
         onSubmit: function onSubmit(e) {
-          return _this6.handleUpdate(e, newUsername, newPassword, newEmail, newBirthday);
+          return _this6.handleUpdate(e, _this6.Username, _this6.Password, _this6.Email, _this6.Birthday);
         }
       }, _react.default.createElement(_reactBootstrap.Form.Group, {
         controlId: "formBasicUsername"
@@ -52149,7 +52150,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55270" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60073" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
