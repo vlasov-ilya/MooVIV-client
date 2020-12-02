@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 
+
 export class MovieView extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {};
   }
@@ -35,7 +37,7 @@ export class MovieView extends React.Component {
     if(!movie) return null;
 
     return (
-      <div className="movie-view">
+      <Card className="movie-view">
         <img className="movie-poster" src={movie.ImagePath}/>
         <div className="movie-title">
           <span className="label">Title: </span>
@@ -69,7 +71,7 @@ export class MovieView extends React.Component {
           <Button className="back-button">Back</Button>
         </Link>
         </div>
-      </div>
+      </Card>
     );
   }
 }

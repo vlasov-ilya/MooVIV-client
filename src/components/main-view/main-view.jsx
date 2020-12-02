@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Container from 'react-bootstrap/Container';
-import {Row, Col} from 'react-bootstrap/';
+import { Row } from 'react-bootstrap/';
 import Button from 'react-bootstrap/Button';
 import {Navbar, Nav} from 'react-bootstrap/';
 
@@ -18,16 +18,15 @@ import { RegistrationView} from '../registration-view/registration-view';
 import { GenreView } from '../genre-view/genre-view';
 import { DirectorView } from '../director-view/director-view';
 import { ProfileView } from '../profile-view/profile-view';
+import MoviesList from '../movies-list/movies-list';
 import { setMovies, setUser } from '../../actions/actions';
 
-export class MainView extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      movies: [],
-      user: null
-    };
+export class MainView extends React.Component {
+  constructor() {
+    super();
+
+ 
   }
 
   componentDidMount() {
@@ -53,27 +52,22 @@ export class MainView extends React.Component {
 
 
   onLoggedIn(authData) {
-    console.log(authData);
     this.props.setUser(authData.user.Username);
-
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
   }
 
-  onLogOut(user) {
+  onLogOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     window.open('/', '_self');
-    this.props.setUser(!user);
   }
 
   render() {
     const { movies, user } = this.props;
 
     if (!movies) return <Container className="main-view"/>;
-    const pathMovies = `/`;
-		const pathProfile = `/users/${user}`;
 
     return (
       <Router>
@@ -83,9 +77,8 @@ export class MainView extends React.Component {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                  <Nav.Link as={Link} to="/" className="navbar-link">Home</Nav.Link>
                   <Nav.Link as={Link} to={`/users/${user}`} className="navbar-link">Profile</Nav.Link>
-                <Button onClick={this.onLogOut} variant="dark" type="submit" className="button log-out"> Log Out</Button>
+                <Button onClick={this.onLogOut} variant="outline-warning" type="submit" className="button log-out"> Log Out</Button>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
@@ -93,11 +86,7 @@ export class MainView extends React.Component {
             <Row>
             <Route exact path="/" render={() => {
               if (!user) return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
-                return movies.map(m => 
-                <Col key={m._id} className="justify-content-around">
-                  <MovieCard key={m._id} movie={m} />
-                </Col>
-                )
+                return <MoviesList movies={movies}/>;
             }}/>
             </Row>
           
@@ -125,8 +114,8 @@ export class MainView extends React.Component {
   }
 }
 
-let mapStateToProps = (state) => {
-  return { movies: state.movies, user: state.user};
+let mapStateToProps = state => {
+  return { movies: state.movies, user: state.user };
 }
 
 export default connect(mapStateToProps, { setMovies, setUser })(MainView);
@@ -145,7 +134,7 @@ MainView.propTypes = {
         Name: PropTypes.string.isRequired,
         Bio: PropTypes.string.isRequired,
         Birth: PropTypes.string.isRequired,
-        Death: PropTypes.string.isRequired
+        Death: PropTypes.string
       }),
       ImagePath: PropTypes.string.isRequired,
       Featured: PropTypes.bool.isRequired

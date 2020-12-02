@@ -6,6 +6,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 
+import './login-view.scss';
+
 export function LoginView(props) {
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
@@ -28,9 +30,9 @@ export function LoginView(props) {
   return(
   <Container className="login-view">
     <h1>Welcome to MooVIV!</h1>
-    <Form className="login-view">
+    <Form >
       <Form.Group controlId="formBasicUsername" className="login-item">
-      <Form.Label>Username: </Form.Label>
+      <Form.Label >Username: </Form.Label>
       <Form.Control type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Enter Username" /> 
       </Form.Group>
       <Form.Group controlId="formBasicPassword" className="login-item">
@@ -39,7 +41,7 @@ export function LoginView(props) {
       </Form.Group>
     
     <div className="login-buttons">
-      <Button onClick={handleSubmit} variant="primary" type="submit" className="button-login">LogIn</Button> 
+      <Button variant="success" onClick={handleSubmit} variant="primary" type="submit" className="button-login">LogIn</Button> 
       <Link to={`/register`}>
         <Button variant="success" className="button-register">Join MooVIV</Button>
       </Link>

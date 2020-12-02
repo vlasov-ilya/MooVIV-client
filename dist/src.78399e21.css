@@ -1,3 +1,60 @@
+.login-view {
+  background-image: url("/ticket.8a21812f.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 75%;
+  margin: auto;
+}
+
+.login-buttons Button {
+  margin: 10px 5px;
+}
+
+Form {
+  font-size: 150%;
+  font-style: italic;
+  font-weight: bold;
+}
+
+body {
+  background-color: #dedcdd;
+}
+
+h1 {
+  margin: 15px auto;
+}
+.Registration-form {
+  background-image: url("/clip.b34f1ff2.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 75%;
+  margin: auto;
+  color: #007bff;
+}
+.profile-view {
+  background-image: url("/ticket.8a21812f.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 75%;
+  margin: auto;
+  font-size: 100%;
+  font-style: italic;
+  font-weight: bold;
+  color: aliceblue;
+}
+
+.profile-view Button {
+  margin: 10px 5px;
+}
+
+.update {
+  background-image: url("/clip.b34f1ff2.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 75%;
+  margin: auto;
+  color: #007bff;
+}
 .mooviv {
   color: steelblue;
 }

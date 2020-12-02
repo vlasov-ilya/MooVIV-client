@@ -8,9 +8,16 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Form } from 'react-bootstrap';
 
+import './profile-view.scss';
+
 export class ProfileView extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+
+    this.Username = null,
+    this.Password = null,
+    this.Email = null,
+    this.Birthday = null
 
     this.state = {
       Username: null,
@@ -163,18 +170,20 @@ export class ProfileView extends React.Component {
 
     return (
       <Container>
-        <h2 className="profile-title">Page of {this.state.Username}</h2>
+        <div>
+        <h2>Page of {this.state.Username}</h2>
         <Card style={{ width: '45rem'}} className="profile-view">
           <Card.Body>
             <Card.Text className='profile-text'>Username: {this.state.Username}</Card.Text>
             <Card.Text className='profile-text'>Email: {this.state.Email}</Card.Text>
             <Card.Text className='profile-text'>Birthday: {this.state.Birthday}</Card.Text>
-            <Button onClick={() => this.deleteUser()} className='delete-button'>Delete account</Button>
+            <Button onClick={() => this.deleteUser()} variant="danger" className='delete-button'>Delete account</Button>
             <Link to={'/'}>
-              <Button className='delete-button'>Back</Button>
+              <Button className='delete-button' variant="info"> Back</Button>
             </Link>
           </Card.Body>
         </Card>
+        </div>
       <Container>
         <h2 className="favorite-movies">Your Favorite Movies</h2>
         {FavoriteMoviesList.map((movie) => {
@@ -193,9 +202,9 @@ export class ProfileView extends React.Component {
           );
         })}
       </Container>
-      <Container>
+      <Container >
         <h3>Profile updates</h3>
-        <Card.Body>
+        <Card.Body className = "update">
           <Form noValidate validated={validated} className="update" onSubmit={(e) => this.handleUpdate(e, this.Username, this.Password, this.Email, this.Birthday)}>
             <Form.Group controlId="formBasicUsername">
               <Form.Label className = "form-lable">Username</Form.Label>
