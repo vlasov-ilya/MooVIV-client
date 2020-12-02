@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-// import { RegistrationView } from '../registration-view/registration-view';
 import Container from 'react-bootstrap/Container';
 
 export function LoginView(props) {
@@ -39,21 +37,15 @@ export function LoginView(props) {
       <Form.Label>Password: </Form.Label>
       <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter Passport" /> 
       </Form.Group>
-    </Form>
+    
     <div className="login-buttons">
       <Button onClick={handleSubmit} variant="primary" type="submit" className="button-login">LogIn</Button> 
       <Link to={`/register`}>
         <Button variant="success" className="button-register">Join MooVIV</Button>
       </Link>
     </div>
+    </Form>
   </Container>
   );
 }
 
-// LoginView.propTypes = {
-//   user: PropTypes.shape({
-//     Username: PropTypes.string.isRequired,
-//     Password: PropTypes.string.isRequired
-//   }),
-//   onLoggedIn: PropTypes.func.isRequired
-// };

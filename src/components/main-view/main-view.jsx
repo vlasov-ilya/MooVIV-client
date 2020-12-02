@@ -4,11 +4,13 @@ import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import { Link } from 'react-router-dom';
 
+import { connect } from 'react-redux';
 
 import Container from 'react-bootstrap/Container';
 import {Row, Col} from 'react-bootstrap/';
 import Button from 'react-bootstrap/Button';
 import {Navbar, Nav} from 'react-bootstrap/';
+
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
@@ -16,10 +18,11 @@ import { RegistrationView} from '../registration-view/registration-view';
 import { GenreView } from '../genre-view/genre-view';
 import { DirectorView } from '../director-view/director-view';
 import { ProfileView } from '../profile-view/profile-view';
+import { setMovies, setUser } from '../../actions/actions';
 
 export class MainView extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       movies: [],
@@ -29,10 +32,9 @@ export class MainView extends React.Component {
 
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
+    let user = localStorage.getItem('user');
     if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem('user')
-      });
+      this.props.setUser(user);
       this.getMovies(accessToken);
     }
   }
@@ -42,10 +44,8 @@ export class MainView extends React.Component {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(response => {
-      this.setState({
-        movies: response.data
-      });
-    })
+      this.props.setMovies(response.data)
+      })
     .catch(function (error) {
       console.log(error);
     });
@@ -54,25 +54,26 @@ export class MainView extends React.Component {
 
   onLoggedIn(authData) {
     console.log(authData);
-    this.setState({
-      user: authData.user.Username
-    });
+    this.props.setUser(authData.user.Username);
 
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
   }
 
-  onLogOut() {
+  onLogOut(user) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     window.open('/', '_self');
+    this.props.setUser(!user);
   }
 
   render() {
-    const { movies, user } = this.state;
+    const { movies, user } = this.props;
 
     if (!movies) return <Container className="main-view"/>;
+    const pathMovies = `/`;
+		const pathProfile = `/users/${user}`;
 
     return (
       <Router>
@@ -91,7 +92,7 @@ export class MainView extends React.Component {
           
             <Row>
             <Route exact path="/" render={() => {
-              if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+              if (!user) return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
                 return movies.map(m => 
                 <Col key={m._id} className="justify-content-around">
                   <MovieCard key={m._id} movie={m} />
@@ -123,3 +124,32 @@ export class MainView extends React.Component {
     );
   }
 }
+
+let mapStateToProps = (state) => {
+  return { movies: state.movies, user: state.user};
+}
+
+export default connect(mapStateToProps, { setMovies, setUser })(MainView);
+
+MainView.propTypes = {
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      Title: PropTypes.string.isRequired,
+      Description: PropTypes.string.isRequired,
+      Genre: PropTypes.shape({
+        Name: PropTypes.string.isRequired,
+        Description: PropTypes.string.isRequired
+      }),
+      Director: PropTypes.shape({
+        Name: PropTypes.string.isRequired,
+        Bio: PropTypes.string.isRequired,
+        Birth: PropTypes.string.isRequired,
+        Death: PropTypes.string.isRequired
+      }),
+      ImagePath: PropTypes.string.isRequired,
+      Featured: PropTypes.bool.isRequired
+    })
+  ),
+  user: PropTypes.string.isRequired
+};
