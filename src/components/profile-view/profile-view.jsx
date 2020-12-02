@@ -172,7 +172,7 @@ export class ProfileView extends React.Component {
       <Container>
         <div>
         <h2>Page of {this.state.Username}</h2>
-        <Card style={{ width: '45rem'}} className="profile-view">
+        <Card style={{ width: '50%'}} className="profile-view">
           <Card.Body>
             <Card.Text className='profile-text'>Username: {this.state.Username}</Card.Text>
             <Card.Text className='profile-text'>Email: {this.state.Email}</Card.Text>

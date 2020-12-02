@@ -53335,7 +53335,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var movie = this.props.movie;
       if (!movie) return null;
-      return _react.default.createElement(_Card.default, {
+      return _react.default.createElement("div", {
         className: "movie-view"
       }, _react.default.createElement("img", {
         className: "movie-poster",
@@ -54069,7 +54069,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var token = localStorage.getItem('token');
       return _react.default.createElement(_Container.default, null, _react.default.createElement("div", null, _react.default.createElement("h2", null, "Page of ", this.state.Username), _react.default.createElement(_Card.default, {
         style: {
-          width: '45rem'
+          width: '50%'
         },
         className: "profile-view"
       }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, {
@@ -54761,7 +54761,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58542" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62270" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

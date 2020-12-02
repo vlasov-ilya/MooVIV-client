@@ -4,7 +4,6 @@
 }
 
 .card {
-  display: flex;
   text-align: center;
   margin: 0 auto;
 }
@@ -51,6 +50,7 @@ h1 {
   font-style: italic;
   font-weight: bold;
   color: aliceblue;
+  text-align: left;
 }
 
 .profile-view Button {
