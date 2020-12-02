@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { CardColumns} from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
+import './movie-card.scss';
 
 export class MovieCard extends React.Component {
   render(){
     const { movie } = this.props;
 
     return (
-      <CardColumns>
-      <Card border="dark" style={{ width: '18rem' }} className="movie-card">
+      <Col className="colume" style={{ maxWidth: '30rem', minWidth: '15rem'}}>
+      <Card className="card" border="dark" style={{ maxWidth: '30rem', minWidth: '15rem' }} className="movie-card">
       <Card.Img variant="top" src={movie.ImagePath} />
       <Card.Body>
         <Card.Title>{movie.Title}</Card.Title>
@@ -23,7 +24,7 @@ export class MovieCard extends React.Component {
         </Link>
       </Card.Body>
     </Card>
-    </CardColumns>
+    </Col>
     );
   }
 }
